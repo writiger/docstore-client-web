@@ -1,8 +1,8 @@
 ## 客户端命名规范
 
-* 目录名：全部采用小写方式，以短横线分隔，有复数结构时，要采用复数命名法。eg：`docs、assets、components、directives、mixins、utils、views`
+- 目录名：全部采用小写方式，以短横线分隔，有复数结构时，要采用复数命名法。eg：`docs、assets、components、directives、mixins、utils、views`
 
-  ``` 
+  ```
   |- BuildScript    // 流水线部署文件目录
   |- docs           // 项目的细化文档目录（可选）
   |- nginx          // 部署在容器上前端项目 nginx 代理文件目录
@@ -44,5 +44,3 @@
       |- README.md // 项目 README
       |- vue.config.js // webpack 配置
   ```
-
-  
