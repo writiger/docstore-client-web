@@ -2,8 +2,9 @@ import axios from 'axios';
 import { ElMessage } from 'element-plus';
 
 let request = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_API,
+  baseURL: import.meta.env.VITE_SERVER,
   timeout: 5000,
+  withCredentials: false,
 });
 
 //请求拦截器
@@ -44,3 +45,4 @@ request.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+export default request;

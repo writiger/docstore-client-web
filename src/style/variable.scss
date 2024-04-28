@@ -1,2 +1,23 @@
 //全局变量
-$color:pink;
+//主题色
+$color1:#27374D;
+$color2:#526D82;
+$color3:#9DB2BF;
+$color4:#DDE6ED;
+$color-bright:#A8DF8E;
+$white: #ffffff;
+$gray-light: #a0b3b0;
+$gray: #ddd;
+
+//登陆注册面板
+$lr-body-bg: $color2;
+$lr-form-bg: $color1;
+
+$lr-main: $color-bright;
+$lr-main-light: lighten($lr-main, 5%);
+$lr-main-dark: darken($lr-main, 5%);
+
+$lr-thin: 300;
+$lr-normal: 400;
+$lr-bold: 600;
+$br: 4px;
