@@ -13,6 +13,8 @@ import '@/style/index.scss';
 import router from './router';
 //仓库
 import pinia from './store';
+//路由鉴权
+import './permission';
 
 const app = createApp(App);
 app.use(globalComponent);

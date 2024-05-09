@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { loginForm } from '@/api/user/type';
 import { reactive } from 'vue';
-import useUserStore from '@/store/modules/user/user.ts';
+import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 

@@ -1,5 +1,5 @@
-//全局变量
-//主题色
+// 全局变量
+// 主题色
 $color1:#27374D;
 $color2:#526D82;
 $color3:#9DB2BF;
@@ -9,7 +9,7 @@ $white: #ffffff;
 $gray-light: #a0b3b0;
 $gray: #ddd;
 
-//登陆注册面板
+// 登陆注册面板
 $lr-body-bg: $color2;
 $lr-form-bg: $color1;
 
@@ -21,3 +21,13 @@ $lr-thin: 300;
 $lr-normal: 400;
 $lr-bold: 600;
 $br: 4px;
+
+// layout
+$layout-menu-width:260px;
+$layout-tabbar-height:100px;
+
+// layout-logo
+$logo-width:50px;
+$logo-img-width:40px;
+$logo-img-height:40px;
+$logo-font-size:30px;

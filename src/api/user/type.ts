@@ -10,7 +10,7 @@ interface loginDataType {
 export interface loginResponseData {
   code: number;
   msg: string;
-  data: loginDataType;
+  data?: loginDataType;
 }
 
 //注册
@@ -25,7 +25,7 @@ export interface registerForm {
 }
 
 //获取用户信息
-interface userInfo {
+export interface userInfo {
   token: string;
   account: string;
   email: string;
@@ -36,8 +36,20 @@ interface userInfo {
   avatar: string;
   uid: string;
 }
+
 export interface userInfoResponseData {
   code: number;
   msg: string;
   data: userInfo;
+}
+//获取用户列表
+export interface userListResponseData {
+  code: number;
+  msg: string;
+  data: userList;
+}
+interface userList {
+  list: userInfo[];
+  total: number;
+  pages: number;
 }
