@@ -3,6 +3,7 @@ import request from '@/utils/request';
 import type {
   loginForm,
   loginResponseData,
+  userBanResponseData,
   userInfoResponseData,
   userListResponseData,
 } from './type';
@@ -12,6 +13,8 @@ enum API {
   USER_INFO_URL = '/user',
   USER_LIST = '/admin/user',
   USER_LIST_LIKE = '/admin/user/like',
+  USER_BAN = '/admin/ban',
+  USER_UNBAN = '/admin/unban',
 }
 
 //登录接口方法
@@ -33,3 +36,11 @@ export const reqUserList = (page: number, limit: number) =>
   request.get<any, userListResponseData>(
     API.USER_LIST + `?pageNo=${page}&pageSize=${limit}`,
   );
+
+//封禁用户
+export const reqUserBan = (account: string) =>
+  request.put<any, userBanResponseData>(API.USER_BAN + `/${account}`);
+
+//解封用户
+export const reqUserUnban = (account: string) =>
+  request.put<any, userBanResponseData>(API.USER_UNBAN + `/${account}`);

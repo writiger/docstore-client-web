@@ -53,3 +53,9 @@ interface userList {
   total: number;
   pages: number;
 }
+
+//封禁解封返回
+export interface userBanResponseData {
+  code: number;
+  msg: string;
+}
