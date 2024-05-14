@@ -47,7 +47,7 @@
         :total="total"
         background="false"
         :page-sizes="[5, 10, 15]"
-        @current-change="getUserList()"
+        @current-change="getUserList"
         @size-change="getUserList()"
       />
     </div>
@@ -76,8 +76,7 @@ onMounted(() => {
   getUserList();
 });
 
-const getUserList = async (pager = 1) => {
-  pageNo.value = pager;
+const getUserList = async () => {
   let searchWay;
   if (search.value) {
     searchWay = reqUserListLike;

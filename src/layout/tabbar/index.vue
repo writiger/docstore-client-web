@@ -1,15 +1,17 @@
 <template>
   <div class="tabbar">
     <div class="tabbar_left">
-      <el-icon>
-        <Expand />
+      <el-icon @click="changeIcon">
+        <Expand v-if="layoutSettingStore.fold" />
+        <Fold v-if="!layoutSettingStore.fold" />
       </el-icon>
       <el-breadcrumb separator-icon="ArrowRight">
-        <el-breadcrumb-item>
-          <span>账号设置</span>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <span>修改密码</span>
+        <el-breadcrumb-item
+          v-for="(item, index) in $route.matched"
+          :key="index"
+          v-show="item.meta.title"
+        >
+          <span>{{ item.meta.title }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -32,14 +34,25 @@
 
 <script setup lang="ts">
 import useUserStore from '@/store/modules/user';
-import { useRouter } from 'vue-router';
+import useLayoutSettingStore from '@/store/modules/setting';
+import { useRoute } from 'vue-router';
+import { onMounted } from 'vue';
 
 let userStore = useUserStore();
-let $router = useRouter();
+let layoutSettingStore = useLayoutSettingStore();
+let $route = useRoute();
+
+onMounted(() => {
+  userStore.userInfoGet();
+});
+
+const changeIcon = () => {
+  layoutSettingStore.fold = !layoutSettingStore.fold;
+};
 
 const logout = () => {
   userStore.userLogout();
-  $router.push({ path: '/login' });
+  $route.push({ path: '/login' });
 };
 </script>
 

@@ -1,3 +1,5 @@
+import components from '@/components';
+
 export const constantRoute = [
   {
     path: '/login',
@@ -14,7 +16,6 @@ export const constantRoute = [
     redirect: '/home',
     component: () => import('@/layout/index.vue'),
     meta: {
-      title: 'layout',
       hidden: false,
     },
     children: [
@@ -23,7 +24,7 @@ export const constantRoute = [
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
-          hidden: true,
+          hidden: false,
           icon: 'HomeFilled',
         },
       },
@@ -171,15 +172,41 @@ export const constantRoute = [
       },
     ],
   },
+  // 评论管理
   {
     path: '/comment',
-    component: () => import('@/views/comment/index.vue'),
-    name: 'comment',
-    meta: {
-      title: '评论管理',
-      hidden: false,
-      icon: 'Comment',
-    },
+    component: () => import('@/layout/index.vue'),
+    name: 'commentF',
+    children: [
+      {
+        name: 'comment',
+        path: '/comment',
+        component: () => import('@/views/comment/index.vue'),
+        meta: {
+          title: '评论管理',
+          hidden: false,
+          icon: 'Comment',
+        },
+      },
+    ],
+  },
+  // 所属管理
+  {
+    path: '/belong',
+    component: () => import('@/layout/index.vue'),
+    name: 'belongF',
+    children: [
+      {
+        name: 'belong',
+        path: '/belong',
+        component: () => import('@/views/region/index.vue'),
+        meta: {
+          title: '所属管理',
+          hidden: false,
+          icon: 'Location',
+        },
+      },
+    ],
   },
   {
     path: '/404',
