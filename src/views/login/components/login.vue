@@ -24,19 +24,28 @@
         />
       </div>
 
-      <p class="forgot"><a href="#">Forgot Password?</a></p>
+      <p class="forgot" @click="dialogVisable = true">
+        <a>Forgot Password?</a>
+      </p>
 
       <button @click="login()" class="button button-block">Log In</button>
     </form>
+    <el-dialog v-model="dialogVisable" style="width: 30%">
+      <el-input placeholder="请输入邮箱" v-model="email"></el-input>
+      <template #footer>
+        <el-button type="success" @click="forgetPWD">确认</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { loginForm } from '@/api/user/type';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import useUserStore from '@/store/modules/user';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
+import { reqChangePasswordVerify } from '@/api/user';
 
 let $router = useRouter();
 let userStore = useUserStore();
@@ -44,6 +53,8 @@ let loginFormTemp = reactive<loginForm>({
   account: '',
   password: '',
 });
+let dialogVisable = ref<boolean>(false);
+let email = ref<string>('');
 
 const login = async () => {
   try {
@@ -57,6 +68,18 @@ const login = async () => {
     ElNotification({
       type: 'error',
       message: (error as Error).message,
+    });
+  }
+};
+
+const forgetPWD = async () => {
+  dialogVisable.value = false;
+  let res = await reqChangePasswordVerify(email.value);
+  if (res.code == 200) {
+    ElNotification({
+      title: 'Success',
+      message: '邮件已发出,请查收',
+      type: 'success',
     });
   }
 };

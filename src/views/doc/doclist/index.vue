@@ -54,17 +54,17 @@
 </template>
 
 <script setup lang="ts">
-import { reqDocList, reqEasySearchDoc } from '@/api/doc';
+import { reqDocList, reqEasySearchDoc, downloadDoc } from '@/api/doc';
 import { doc } from '@/api/doc/type';
-import request from '@/utils/request';
-import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 let search = ref('');
 let pageNo = ref(1);
 let pageSize = ref(10);
 let total = ref<number>(0);
 let docInfos = ref<doc[]>();
+let $router = useRouter();
 
 onMounted(() => {
   getDocList();
@@ -82,35 +82,8 @@ const getDocList = async () => {
   docInfos.value = res.data.list;
 };
 
-const downloadDoc = (fileName: string, uuid: string, suffix: string) => {
-  console.log(uuid + suffix);
-  request
-    .post(
-      '/file/download',
-      {
-        uuid,
-        suffix,
-      },
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        responseType: 'blob',
-      },
-    )
-    .then((res) => {
-      let link = document.createElement('a');
-      link.style.display = 'none';
-      const url = window.URL || window.webkitURL || window.moxURL;
-      link.href = url.createObjectURL(res);
-      link.download = fileName; //下载的文件名称
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
-};
-
 const changeDoc = (uuid: string) => {
-  console.log(uuid);
+  $router.push('/doc/panel?uuid=' + uuid);
 };
 
 const deleteDoc = (uuid: string) => {

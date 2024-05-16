@@ -28,3 +28,22 @@ export interface responseDocList {
   msg: string;
   data: docList;
 }
+
+export interface responseDoc {
+  code: number;
+  msg: string;
+  data: doc;
+}
+
+//通过uuid修改文献内容
+export interface reqChangeDocByUuid {
+  author: string;
+  keyword: string;
+  uuid: string;
+  digest: string;
+}
+
+export interface responseBasic {
+  code: number;
+  msg: string;
+}

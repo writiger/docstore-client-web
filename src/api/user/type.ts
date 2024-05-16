@@ -34,7 +34,7 @@ export interface userInfo {
   belong: string;
   status: string;
   avatar: string;
-  uid: string;
+  uuid: string;
 }
 
 export interface userInfoResponseData {
@@ -55,7 +55,14 @@ interface userList {
 }
 
 //封禁解封返回
-export interface userBanResponseData {
+export interface basicResponseData {
   code: number;
   msg: string;
+}
+
+//修改密码
+export interface changePasswdForm {
+  password1: string;
+  password2: string;
+  email: string;
 }

@@ -2,6 +2,15 @@ import components from '@/components';
 
 export const constantRoute = [
   {
+    path: '/forget/:code',
+    component: () => import('@/views/login/components/forget.vue'),
+    name: 'forget',
+    meta: {
+      title: '忘记密码',
+      hidden: true,
+    },
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index.vue'),
     name: 'login',
@@ -41,16 +50,6 @@ export const constantRoute = [
       icon: 'UserFilled',
     },
     children: [
-      {
-        path: '/perself/password',
-        component: () => import('@/views/perself/password/index.vue'),
-        name: 'password',
-        meta: {
-          title: '修改密码',
-          hidden: false,
-          icon: 'Lock',
-        },
-      },
       {
         path: '/perself/info',
         component: () => import('@/views/perself/myinfo/index.vue'),
@@ -135,6 +134,16 @@ export const constantRoute = [
           title: '文献列表',
           hidden: false,
           icon: 'DocumentCopy',
+        },
+      },
+      {
+        path: '/doc/panel',
+        component: () => import('@/views/doc/panel/index.vue'),
+        name: 'docPanel',
+        meta: {
+          title: '修改文献',
+          hidden: false,
+          icon: 'DocumentChecked',
         },
       },
     ],

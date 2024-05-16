@@ -1,11 +1,12 @@
-//统一管理用户相关接口 
+//统一管理用户相关接口
 import request from '@/utils/request';
 import type {
   loginForm,
   loginResponseData,
-  userBanResponseData,
+  basicResponseData,
   userInfoResponseData,
   userListResponseData,
+  changePasswdForm,
 } from './type';
 enum API {
   LOGIN_URL = '/user/login',
@@ -15,6 +16,7 @@ enum API {
   USER_LIST_LIKE = '/admin/user/like',
   USER_BAN = '/admin/ban',
   USER_UNBAN = '/admin/unban',
+  USER_PWD_CHANGE_CODE = '/user/passwd',
 }
 
 //登录接口方法
@@ -39,8 +41,16 @@ export const reqUserList = (page: number, limit: number) =>
 
 //封禁用户
 export const reqUserBan = (account: string) =>
-  request.put<any, userBanResponseData>(API.USER_BAN + `/${account}`);
+  request.put<any, basicResponseData>(API.USER_BAN + `/${account}`);
 
 //解封用户
 export const reqUserUnban = (account: string) =>
-  request.put<any, userBanResponseData>(API.USER_UNBAN + `/${account}`);
+  request.put<any, basicResponseData>(API.USER_UNBAN + `/${account}`);
+
+//申请修改密码
+export const reqChangePasswordVerify = (email: string) =>
+  request.post<any, basicResponseData>(API.USER_PWD_CHANGE_CODE + `/${email}`);
+
+//修改密码
+export const reqChangePassword = (data: changePasswdForm, code: string) =>
+  request.put(API.USER_PWD_CHANGE_CODE + `/${code}`, data);
