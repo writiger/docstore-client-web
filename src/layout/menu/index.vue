@@ -48,7 +48,6 @@ import { useRouter } from 'vue-router';
 defineProps(['menuList']);
 let $router = useRouter();
 const goRoute = (vc: { index: any }) => {
-  console.log(vc);
   $router.push(vc.index);
 };
 </script>

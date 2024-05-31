@@ -28,7 +28,9 @@
         <a>Forgot Password?</a>
       </p>
 
-      <button @click="login()" class="button button-block">Log In</button>
+      <button type="button" @click="login()" class="button button-block">
+        Log In
+      </button>
     </form>
     <el-dialog v-model="dialogVisable" style="width: 30%">
       <el-input placeholder="请输入邮箱" v-model="email"></el-input>

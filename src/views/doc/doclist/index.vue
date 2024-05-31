@@ -20,11 +20,7 @@
           <el-button
             type="primary"
             @click="
-              downloadDoc(
-                scope.row.theme + scope.row.suffix,
-                scope.row.uuid,
-                scope.row.suffix,
-              )
+              downloadDoc(scope.row.theme, scope.row.uuid, scope.row.suffix)
             "
           >
             下载
@@ -54,9 +50,15 @@
 </template>
 
 <script setup lang="ts">
-import { reqDocList, reqEasySearchDoc, downloadDoc } from '@/api/doc';
+import {
+  downloadDoc,
+  deleteDocByUuid,
+  reqManageDocList,
+  reqManageDocListLike,
+} from '@/api/doc';
 import { doc } from '@/api/doc/type';
-import { onMounted, ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 let search = ref('');
@@ -66,16 +68,12 @@ let total = ref<number>(0);
 let docInfos = ref<doc[]>();
 let $router = useRouter();
 
-onMounted(() => {
-  getDocList();
-});
-
 const getDocList = async () => {
   let searchWay;
   if (search.value) {
-    searchWay = reqEasySearchDoc;
+    searchWay = reqManageDocListLike;
   } else {
-    searchWay = reqDocList;
+    searchWay = reqManageDocList;
   }
   let res = await searchWay(pageNo.value, pageSize.value, search.value);
   total.value = res.data.total;
@@ -86,8 +84,16 @@ const changeDoc = (uuid: string) => {
   $router.push('/doc/panel?uuid=' + uuid);
 };
 
-const deleteDoc = (uuid: string) => {
-  console.log(uuid);
+const deleteDoc = async (uuid: string) => {
+  let res = await deleteDocByUuid(uuid);
+  if (res.code == 200) {
+    getDocList();
+  } else {
+    ElMessage({
+      type: 'error',
+      message: res.msg,
+    });
+  }
 };
 </script>
 

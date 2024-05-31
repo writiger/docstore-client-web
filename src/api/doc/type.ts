@@ -47,3 +47,17 @@ export interface responseBasic {
   code: number;
   msg: string;
 }
+
+//检索条件
+export interface reqBasicSearch {
+  pageNo: number;
+  pageSize: number;
+  belong: string;
+  items: basicSearchItem[];
+}
+
+interface basicSearchItem {
+  linkWay: string;
+  key: string;
+  value: string;
+}

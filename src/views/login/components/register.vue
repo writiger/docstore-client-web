@@ -49,7 +49,7 @@
           所属单位
           <span class="req">*</span>
         </label>
-        <select v-model="registerFormTemp.belong" id="belongs" name="skills">
+        <select v-model="registerFormTemp.belong" id="belongs">
           <option
             v-for="(option, index) in belongs"
             :key="index"
@@ -100,21 +100,29 @@
           />
         </div>
         <div class="field-wrap">
-          <label>
+          <el-button @click="getVerify" link>
             <a>获取验证码</a>
-          </label>
+          </el-button>
         </div>
       </div>
-      <button type="submit" class="button button-block">Get Started</button>
+      <button type="button" @click="register" class="button button-block">
+        Get Started
+      </button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
+import { reqBelongList } from '@/api/belong';
+import { reqGetVerifyCode, reqRegisterUser } from '@/api/user';
 import { registerForm } from '@/api/user/type';
-import { reactive, ref } from 'vue';
-let belongs = ref(['dlnu', 'dlut', 'dlmu']);
-let registerFormTemp = reactive<registerForm>({
+import { bcryptSaltHash } from '@/utils/bcrypt';
+import { ElNotification } from 'element-plus';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+let belongs = ref<string[]>([]);
+let registerFormTemp = ref<registerForm>({
   account: '',
   password1: '',
   password2: '',
@@ -123,6 +131,59 @@ let registerFormTemp = reactive<registerForm>({
   verify: '',
   name: '',
 });
+let $router = useRouter();
+
+onMounted(() => {
+  getBelongs();
+});
+
+const getBelongs = async () => {
+  let res = await reqBelongList();
+  res.data.forEach((value) => {
+    belongs.value.push(value.name);
+  });
+};
+
+const register = async () => {
+  if (registerFormTemp.value.password1 != registerFormTemp.value.password2) {
+    ElNotification({
+      type: 'error',
+      message: '两次输入的密码不同，请重新输入',
+      title: 'Error',
+    });
+    return;
+  }
+  let pwd = bcryptSaltHash(registerFormTemp.value.password1);
+  registerFormTemp.value.password1 = pwd;
+  registerFormTemp.value.password2 = pwd;
+  let res = await reqRegisterUser(registerFormTemp.value);
+  if (res.code == 200) {
+    ElNotification({
+      type: 'success',
+      message: '注册成功,跳转登陆界面',
+      title: 'Success',
+    });
+    $router.push({ path: '/' });
+  } else {
+    ElNotification({
+      type: 'error',
+      message: res.message,
+      title: 'Error',
+    });
+  }
+};
+
+const getVerify = async () => {
+  if (registerFormTemp.value.email == '') {
+    ElNotification({
+      type: 'info',
+      title: '请输入邮箱',
+      message: '请输入邮箱',
+    });
+  }
+  let res = await reqGetVerifyCode(registerFormTemp.value.email);
+  console.log(res);
+};
 </script>
 
 <style lang="scss" src="../index.scss"></style>

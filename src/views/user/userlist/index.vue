@@ -62,7 +62,7 @@ import {
   reqUserUnban,
 } from '@/api/user';
 import { userInfo } from '@/api/user/type';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { USER_STATUS } from '@/enum/user';
 import { ElMessage } from 'element-plus';
 
@@ -71,10 +71,6 @@ let pageNo = ref(1);
 let pageSize = ref(10);
 let total = ref<number>(0);
 let userInfos = ref<userInfo[]>();
-
-onMounted(() => {
-  getUserList();
-});
 
 const getUserList = async () => {
   let searchWay;

@@ -41,20 +41,24 @@
           />
         </div>
 
-        <button @click="change()" class="button button-block">确认修改</button>
+        <button type="button" @click="change" class="button button-block">
+          确认修改
+        </button>
       </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { reqChangePassword } from '@/api/user';
 import { changePasswdForm } from '@/api/user/type';
+import { bcryptSaltHash } from '@/utils/bcrypt';
+import { ElMessage, ElNotification } from 'element-plus';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const { params } = useRoute();
-
-console.log(params);
+let $router = useRouter();
 
 let changePasswordForm = ref<changePasswdForm>({
   password1: '',
@@ -62,7 +66,30 @@ let changePasswordForm = ref<changePasswdForm>({
   email: '',
 });
 
-const change = () => {};
+const change = async () => {
+  if (
+    changePasswordForm.value.password1 != changePasswordForm.value.password2
+  ) {
+    ElNotification({
+      title: 'Error',
+      message: '两次密码不一致，请重新输入',
+      type: 'error',
+    });
+    return;
+  }
+  let password = bcryptSaltHash(changePasswordForm.value.password1);
+  changePasswordForm.value.password1 = password;
+  changePasswordForm.value.password2 = password;
+  let res = await reqChangePassword(changePasswordForm.value, params.code);
+  if (res.code == 200) {
+    ElNotification({
+      title: 'Success',
+      message: '修改密码成功，即将跳转至登录界面',
+      type: 'success',
+    });
+    $router.push({ path: '/login' });
+  }
+};
 </script>
 
 <style lang="scss" src="../index.scss"></style>

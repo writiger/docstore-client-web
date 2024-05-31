@@ -35,12 +35,12 @@
 <script setup lang="ts">
 import useUserStore from '@/store/modules/user';
 import useLayoutSettingStore from '@/store/modules/setting';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
 let userStore = useUserStore();
 let layoutSettingStore = useLayoutSettingStore();
-let $route = useRoute();
+let $router = useRouter();
 
 onMounted(() => {
   userStore.userInfoGet();
@@ -52,7 +52,7 @@ const changeIcon = () => {
 
 const logout = () => {
   userStore.userLogout();
-  $route.push({ path: '/login' });
+  $router.push({ path: '/login' });
 };
 </script>
 

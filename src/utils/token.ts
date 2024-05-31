@@ -10,3 +10,16 @@ export const GET_TOKEN = () => {
 export const DEL_TOKEN = () => {
   localStorage.removeItem('token');
 };
+
+//本地化存储Belong
+export const SET_BELONG = (belong: string) => {
+  localStorage.setItem('belong', belong);
+};
+
+export const GET_BELONG = () => {
+  return localStorage.getItem('belong');
+};
+
+export const DEL_BELONG = () => {
+  localStorage.removeItem('belong');
+};

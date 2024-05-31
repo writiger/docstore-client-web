@@ -1,19 +1,25 @@
 // 文献相关接口
 import request from '@/utils/request';
 import {
+  reqBasicSearch,
   reqChangeDocByUuid,
   responseBasic,
   responseDoc,
   responseDocList,
-  uploadDocForm,
 } from './type';
+import { basicResponseData } from '../user/type';
+import { da } from 'element-plus/es/locale';
 
 enum API {
   UPLOAD_URL = '/doc/upload',
   DOC_LIST = '/doc/search/list',
   DOC_LIST_EASY = '/doc/search/easy',
+  DOC_LIST_BASIC = '/doc/search/basic',
+  DOC_MANAGE_LIST = '/doc/manage/list',
+  DOC_MANAGE_LIST_LIKE = '/doc/manage/like',
   DOC_UUID = '/doc/search',
   DOC_CHANGE_UUID = '/doc',
+  DOC_DELETE = '/doc',
 }
 
 //上传文献
@@ -35,8 +41,26 @@ export const reqEasySearchDoc = (page: number, limit: number, col: string) =>
     API.DOC_LIST_EASY + `/${col}?pageNo=${page}&pageSize=${limit}`,
   );
 
-//下载
+export const reqBasicSearchDoc = (data: reqBasicSearch) =>
+  request.post<any, any>(API.DOC_LIST_BASIC, data);
 
+//管理文献列表
+export const reqManageDocList = (page: number, limit: number) =>
+  request.get<any, responseDocList>(
+    API.DOC_MANAGE_LIST + `?pageNo=${page}&pageSize=${limit}`,
+  );
+
+//模糊管理文献列表
+export const reqManageDocListLike = (
+  page: number,
+  limit: number,
+  col: string,
+) =>
+  request.get<any, responseDocList>(
+    API.DOC_MANAGE_LIST_LIKE + `/${col}?pageNo=${page}&pageSize=${limit}`,
+  );
+
+//下载
 export const downloadDoc = (fileName: string, uuid: string, suffix: string) => {
   request
     .post(
@@ -70,3 +94,7 @@ export const docByUuid = (uuid: string) =>
 //通过uuid修改文献
 export const changeDocByUuid = (data: reqChangeDocByUuid) =>
   request.put<any, responseBasic>(API.DOC_CHANGE_UUID, data);
+
+//通过uuid删除文献
+export const deleteDocByUuid = (uuid: string) =>
+  request.delete<any, basicResponseData>(API.DOC_DELETE + `/${uuid}`);

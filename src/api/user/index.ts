@@ -7,7 +7,9 @@ import type {
   userInfoResponseData,
   userListResponseData,
   changePasswdForm,
+  registerForm,
 } from './type';
+
 enum API {
   LOGIN_URL = '/user/login',
   REGISTER_URL = '/user/register',
@@ -16,7 +18,11 @@ enum API {
   USER_LIST_LIKE = '/admin/user/like',
   USER_BAN = '/admin/ban',
   USER_UNBAN = '/admin/unban',
+  USER_BANNED = '/admin/user/banned',
   USER_PWD_CHANGE_CODE = '/user/passwd',
+  USER_REGISTER = '/user/register',
+  USER_REGISTER_CODE = '/user/verify',
+  USER_CHANGE_NAME = '/user/name',
 }
 
 //登录接口方法
@@ -53,4 +59,25 @@ export const reqChangePasswordVerify = (email: string) =>
 
 //修改密码
 export const reqChangePassword = (data: changePasswdForm, code: string) =>
-  request.put(API.USER_PWD_CHANGE_CODE + `/${code}`, data);
+  request.put<any, basicResponseData>(
+    API.USER_PWD_CHANGE_CODE + `/${code}`,
+    data,
+  );
+
+//注册用户
+export const reqRegisterUser = (data: registerForm) =>
+  request.post<any, any>(API.REGISTER_URL, data);
+
+//获取注册验证码
+export const reqGetVerifyCode = (email: string) =>
+  request.get<any, any>(API.USER_REGISTER_CODE + `/${email}`);
+
+//修改昵称
+export const reqChangeName = (name: string) =>
+  request.put<any, any>(API.USER_CHANGE_NAME + `/${name}`);
+
+//获取封禁用户列表
+export const reqBannedUserList = (page: number, limit: number) =>
+  request.get<any, userListResponseData>(
+    API.USER_BANNED + `?pageNo=${page}&pageSize=${limit}`,
+  );

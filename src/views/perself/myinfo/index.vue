@@ -12,12 +12,11 @@
       <!-- <el-input placeholder="头像" :v-model="myInfo?.avatar"></el-input> -->
       <br />
       <el-input placeholder="昵称" v-model="nameNew"></el-input>
+      <el-button class="mini-button" type="warning" @click="changeName">
+        修改昵称
+      </el-button>
       <br />
       <el-button type="success" @click="forgetPWD">修改密码</el-button>
-      <br />
-      <el-input placeholder="验证码" v-model="vertifyCode"></el-input>
-      <br />
-      <el-button type="warning">修改</el-button>
     </div>
     <template #footer>
       <span>UUID: {{ myInfo?.uuid }}</span>
@@ -26,14 +25,17 @@
 </template>
 
 <script setup lang="ts">
-import { reqChangePasswordVerify, reqUserInfo } from '@/api/user';
+import {
+  reqChangeName,
+  reqChangePasswordVerify,
+  reqUserInfo,
+} from '@/api/user';
 import { userInfo } from '@/api/user/type';
 import { ElMessage, ElNotification } from 'element-plus';
 import { onMounted, ref } from 'vue';
 
 let myInfo = ref<userInfo>();
 let nameNew = ref<string>('');
-let vertifyCode = ref<string>('');
 
 onMounted(() => {
   getMyInfo();
@@ -62,6 +64,12 @@ const forgetPWD = async () => {
     });
   }
 };
+
+const changeName = async () => {
+  let res = await reqChangeName(nameNew.value);
+  if (res.code == 200) {
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -75,8 +83,8 @@ const forgetPWD = async () => {
     display: inline-block;
     margin-top: 5px;
   }
-  .el-button {
-    width: 300px;
+  .mini-button {
+    width: 60px;
     margin-top: 5px;
   }
 }

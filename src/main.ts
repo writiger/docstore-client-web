@@ -15,10 +15,13 @@ import router from './router';
 import pinia from './store';
 //路由鉴权
 import './permission';
+//hash
+import bcrypt from 'bcryptjs';
 
 const app = createApp(App);
 app.use(globalComponent);
 app.use(ElementPlus);
 app.use(router);
 app.use(pinia);
+app.use(bcrypt);
 app.mount('#app');

@@ -13,6 +13,7 @@ request.interceptors.request.use((config) => {
   let userStore = useUserStore();
   if (userStore.token) {
     config.headers.Authorization = userStore.token;
+    config.headers['Belong'] = userStore.belong;
   }
   return config;
 });

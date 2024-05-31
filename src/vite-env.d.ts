@@ -3,3 +3,5 @@
 declare module 'vue-router';
 
 declare module 'nprogress';
+
+declare module 'bcryptjs';
